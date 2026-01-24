@@ -16,7 +16,7 @@ namespace e_commerce_platform_BE.Controllers
         public async Task<IActionResult> GetAll(CancellationToken ct)
             => Ok(await _service.GetAllAsync(ct));
 
-        [HttpGet("{id:long}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id, CancellationToken ct)
         {
             var result = await _service.GetByIdAsync(id, ct);
