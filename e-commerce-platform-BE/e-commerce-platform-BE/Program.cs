@@ -19,7 +19,13 @@ namespace e_commerce_platform_BE
 
             builder.Services.AddDbContext<ProductDbContext>(options =>
             {
-                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+                var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+                    ?? Environment.GetEnvironmentVariable("DATABASE_URL");
+                
+                // Log for debugging (remove in production)
+                Console.WriteLine($"Connection String Length: {connectionString?.Length ?? 0}");
+                Console.WriteLine($"Connection String Ends With: {connectionString?.Substring(Math.Max(0, connectionString.Length - 20))}");
+                
                 options.UseNpgsql(connectionString);
             });
 
