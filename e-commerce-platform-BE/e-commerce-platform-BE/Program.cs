@@ -46,6 +46,13 @@ namespace e_commerce_platform_BE
 
             var app = builder.Build();
 
+            // Auto-apply migrations on startup (for production deployment)
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ProductDbContext>();
+                db.Database.Migrate();
+            }
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
