@@ -80,10 +80,6 @@ Frontend runs at: `http://localhost:3000`
 
 ## 👤 Author
 
-- **Student ID**: QE123456
-- **Name**: Your Name
+- **Student ID**: QE180015  
+- **Name**: Hồ Văn Phong
 - **Class**: PRN232
-
-## 📄 License
-
-This project is for educational purposes only.
