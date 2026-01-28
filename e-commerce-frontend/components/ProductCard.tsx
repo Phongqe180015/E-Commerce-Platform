@@ -6,8 +6,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057';
   const imageUrl = product.imageUrl 
-    ? `http://localhost:5057${product.imageUrl}` 
+    ? `${API_URL}${product.imageUrl}` 
     : '/placeholder-product.svg';
 
   return (

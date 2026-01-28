@@ -34,7 +34,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         image: null,
       });
       if (data.imageUrl) {
-        setImagePreview(`http://localhost:5057${data.imageUrl}`);
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057';
+        setImagePreview(`${API_URL}${data.imageUrl}`);
       }
     } catch (err) {
       alert('Product not found');
