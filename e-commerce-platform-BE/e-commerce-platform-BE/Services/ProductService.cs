@@ -2,18 +2,27 @@
 using e_commerce_platform_BE.Models;
 using e_commerce_platform_BE.Repository.Impl;
 using e_commerce_platform_BE.Services.Impl;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace e_commerce_platform_BE.Services
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _repo;
-        private readonly IWebHostEnvironment _env;
+        private readonly Cloudinary _cloudinary;
 
-        public ProductService(IProductRepository repo, IWebHostEnvironment env)
+        public ProductService(IProductRepository repo, IConfiguration config)
         {
             _repo = repo;
-            _env = env;
+            
+            // Setup Cloudinary
+            var account = new Account(
+                config["Cloudinary:CloudName"],
+                config["Cloudinary:ApiKey"],
+                config["Cloudinary:ApiSecret"]
+            );
+            _cloudinary = new Cloudinary(account);
         }
 
         public async Task<List<ProductResponse>> GetAllAsync(CancellationToken ct)
@@ -83,23 +92,23 @@ namespace e_commerce_platform_BE.Services
 
         private async Task<string?> ResolveImageUrlAsync(IFormFile? imageFile, CancellationToken ct)
         {
-            // If no image file provided, return null
             if (imageFile == null)
                 return null;
 
-            // Lưu local: wwwroot/uploads/...
-            var uploadsDir = Path.Combine(_env.WebRootPath ?? "wwwroot", "uploads");
-            Directory.CreateDirectory(uploadsDir);
+            // Upload to Cloudinary
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream()),
+                Folder = "e-commerce-products",
+                PublicId = $"product_{Guid.NewGuid():N}"
+            };
 
-            var ext = Path.GetExtension(imageFile.FileName);
-            var fileName = $"{Guid.NewGuid():N}{ext}";
-            var absPath = Path.Combine(uploadsDir, fileName);
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-            await using var stream = File.Create(absPath);
-            await imageFile.CopyToAsync(stream, ct);
+            if (uploadResult.Error != null)
+                throw new Exception($"Cloudinary upload failed: {uploadResult.Error.Message}");
 
-            // URL public
-            return $"/uploads/{fileName}";
+            return uploadResult.SecureUrl.ToString();
         }
     }
 }
