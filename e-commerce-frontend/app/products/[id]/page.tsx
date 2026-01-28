@@ -64,7 +64,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057';
   const imageUrl = product.imageUrl 
-    ? `${API_URL}${product.imageUrl}` 
+    ? (product.imageUrl.startsWith('http') ? product.imageUrl : `${API_URL}${product.imageUrl}`)
     : '/placeholder-product.svg';
 
   return (

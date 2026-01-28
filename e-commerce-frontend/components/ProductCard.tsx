@@ -7,8 +7,11 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057';
+  
+  // If imageUrl is already a full URL (Cloudinary), use it directly
+  // Otherwise, append backend URL for local uploads
   const imageUrl = product.imageUrl 
-    ? `${API_URL}${product.imageUrl}` 
+    ? (product.imageUrl.startsWith('http') ? product.imageUrl : `${API_URL}${product.imageUrl}`)
     : '/placeholder-product.svg';
 
   return (

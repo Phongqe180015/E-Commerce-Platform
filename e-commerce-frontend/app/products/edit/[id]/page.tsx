@@ -35,7 +35,8 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
       });
       if (data.imageUrl) {
         const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057';
-        setImagePreview(`${API_URL}${data.imageUrl}`);
+        const fullUrl = data.imageUrl.startsWith('http') ? data.imageUrl : `${API_URL}${data.imageUrl}`;
+        setImagePreview(fullUrl);
       }
     } catch (err) {
       alert('Product not found');
