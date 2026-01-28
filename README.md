@@ -4,9 +4,9 @@ A full-stack e-commerce web application for selling clothing products with compl
 
 ## 🚀 Live Demo
 
-- **Frontend (Vercel)**: https://e-commerce-platform-delta-seven.vercel.app
-- **Backend API (Render)**: https://e-commerce-platform-2-gom8.onrender.com
-- **API Documentation (Swagger)**: https://e-commerce-platform-2-gom8.onrender.com/swagger
+- **Frontend (Vercel)**: 
+- **Backend API (Render)**: 
+- **API Documentation (Swagger)**: 
 
 ## 📋 Features
 
