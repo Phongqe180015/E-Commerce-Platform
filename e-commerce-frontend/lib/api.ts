@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5057';
 
 export interface Product {
   id: number;
@@ -19,12 +19,12 @@ export interface ProductCreateRequest {
 
 export const productApi = {
   async getAll(): Promise<Product[]> {
-    const response = await axios.get(`${API_URL}/products`);
+    const response = await axios.get(`${API_URL}/api/products`);
     return response.data;
   },
 
   async getById(id: number): Promise<Product> {
-    const response = await axios.get(`${API_URL}/products/${id}`);
+    const response = await axios.get(`${API_URL}/api/products/${id}`);
     return response.data;
   },
 
@@ -37,7 +37,7 @@ export const productApi = {
       formData.append('image', data.image);
     }
 
-    const response = await axios.post(`${API_URL}/products`, formData, {
+    const response = await axios.post(`${API_URL}/api/products`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response.data;
@@ -52,13 +52,13 @@ export const productApi = {
       formData.append('image', data.image);
     }
 
-    const response = await axios.put(`${API_URL}/products/${id}`, formData, {
+    const response = await axios.put(`${API_URL}/api/products/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     return response.data;
   },
 
   async delete(id: number): Promise<void> {
-    await axios.delete(`${API_URL}/products/${id}`);
+    await axios.delete(`${API_URL}/api/products/${id}`);
   },
 };
