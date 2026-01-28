@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, ChangeEvent } from 'react';
+import Link from 'next/link';
 import { productApi, Product } from '@/lib/api';
 import ProductCard from '@/components/ProductCard';
 
@@ -161,9 +162,9 @@ export default function Home() {
             {products.length === 0 ? 'No products available yet.' : 'No products match your filters.'}
           </p>
           {products.length === 0 && (
-            <a href="/products/create" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block">
+            <Link href="/products/create" className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition inline-block">
               Add Your First Product
-            </a>
+            </Link>
           )}
         </div>
       ) : (
